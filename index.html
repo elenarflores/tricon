@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Tricon</title>
+  <meta name="description" content="Draw icons on a grid of squares and triangles, or trace them from an image. Export as PNG, SVG or JSON.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/logo192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="/logo512.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quantico:wght@400;700&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/index-CDUyfoeX.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CocJ4do2.css">
+</head>
+<body>
+  <div id="app">
+    <aside class="panel">
+      <a class="brand" href="/" title="Tricon"><img src="/logo.png" alt="Tricon" class="logo"></a>
+
+      <div class="group">
+        <div class="row">
+          <button id="undo" class="icon" title="Undo (⌘Z)" aria-label="Undo">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M3 6.5h7a3.5 3.5 0 0 1 0 7H8"/><path d="M6 3.5 3 6.5l3 3"/></svg>
+          </button>
+          <button id="redo" class="icon" title="Redo (⇧⌘Z)" aria-label="Redo">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M13 6.5H6a3.5 3.5 0 0 0 0 7h2"/><path d="m10 3.5 3 3-3 3"/></svg>
+          </button>
+          <button id="invert" class="icon" title="Invert (I)" aria-label="Invert">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="12" height="12"/><path d="M14 2 2 14Z" fill="currentColor" stroke="none"/></svg>
+          </button>
+          <button id="clear" class="icon" title="Clear canvas" aria-label="Clear canvas">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M2.5 4h11M6 4V2.5h4V4M4 4l.8 9.5h6.4L12 4"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="group">
+        <span class="label">Tool</span>
+        <div class="row palette" id="palette">
+          <button class="icon tool" data-tool="clear" title="Erase (X)" aria-label="Erase" aria-pressed="false"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+          <button class="icon tool" data-tool="black" title="Black (Z)" aria-label="Black" aria-pressed="false"><svg viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" fill="currentColor"/></svg></button>
+          <button class="icon tool" data-tool="top-left" title="Top-left triangle (S)" aria-label="Top-left triangle" aria-pressed="false"><svg viewBox="0 0 16 16"><path d="M1 1h14L1 15z" fill="currentColor"/></svg></button>
+          <button class="icon tool" data-tool="top-right" title="Top-right triangle (A)" aria-label="Top-right triangle" aria-pressed="false"><svg viewBox="0 0 16 16"><path d="M1 1h14v14z" fill="currentColor"/></svg></button>
+          <button class="icon tool" data-tool="bottom-left" title="Bottom-left triangle (W)" aria-label="Bottom-left triangle" aria-pressed="false"><svg viewBox="0 0 16 16"><path d="M1 1v14h14z" fill="currentColor"/></svg></button>
+          <button class="icon tool" data-tool="bottom-right" title="Bottom-right triangle (Q)" aria-label="Bottom-right triangle" aria-pressed="false"><svg viewBox="0 0 16 16"><path d="M15 1v14H1z" fill="currentColor"/></svg></button>
+        </div>
+      </div>
+
+      <div class="group">
+        <span class="label">Grid</span>
+        <div class="stepper">
+          <button id="smaller" class="icon" title="Smaller grid (−)" aria-label="Smaller grid">−</button>
+          <output id="size" for="smaller bigger">26</output>
+          <button id="bigger" class="icon" title="Bigger grid (+)" aria-label="Bigger grid">+</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <span class="label">Image</span>
+        <button id="load-image" title="Trace an image onto the grid">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M8 13V3M4.5 6.5 8 3l3.5 3.5"/></svg>
+          Trace image
+        </button>
+        <input id="file" type="file" accept="image/*,.json,application/json" hidden>
+        <div class="row" id="reference-row" hidden>
+          <button id="toggle-reference" class="ghost" aria-pressed="true" title="Show or hide the image under the grid">Show</button>
+          <button id="reinterpret" class="ghost" title="Trace the image again at the current grid size">Retrace</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <span class="label">Export</span>
+        <div class="row">
+          <button id="export-png" class="ghost">PNG</button>
+          <button id="export-svg" class="ghost">SVG</button>
+          <button id="export-json" class="ghost">JSON</button>
+        </div>
+      </div>
+
+      <div class="hints">
+        <kbd>Q</kbd><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd> triangles<br>
+        <kbd>Z</kbd> black &nbsp;<kbd>X</kbd> erase &nbsp;<kbd>I</kbd> invert<br>
+        <kbd>↑↓←→</kbd> shift &nbsp;<kbd>+</kbd><kbd>−</kbd> grid<br>
+        <kbd>⌘Z</kbd> undo &nbsp;<kbd>⇧⌘Z</kbd> redo &nbsp;<kbd>M</kbd> sound<br>
+        Tap a tool to lock it, again to release<br>
+        Drop an image or JSON anywhere
+      </div>
+
+      <div class="footer">
+        <a href="https://github.com/kylemcdonald/tricon" target="_blank" rel="noopener" class="credit" title="View source on GitHub">By MS. FLOWERS</a>
+        <button id="sound" class="icon small" aria-pressed="true" aria-label="Toggle sound" title="Sound on (M)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2 6h3l4-3v10l-4-3H2z"/><path class="wave" d="M11.5 5.5a3.5 3.5 0 0 1 0 5" stroke-linecap="square"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <main class="stage" id="stage">
+      <div class="canvas-wrap" id="canvas-wrap">
+        <canvas id="base"></canvas>
+        <canvas id="overlay"></canvas>
+      </div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </main>
+  </div>
+</body>
+</html>
